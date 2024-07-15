@@ -26,11 +26,11 @@ func register(c *gin.Context){
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost)
 	if err != nil {
 		fmt.Println(err)
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		c.IndentedJSON(http.StatusInternalServerError, "Failed to hash password")
 		return
 	}
 
-	if !emailCheck(newUser){
+	if !emailCheck(newUser.Email){
 		c.IndentedJSON(http.StatusConflict, "Invalid email format.")
 		return
 	}
@@ -70,9 +70,9 @@ func register(c *gin.Context){
 	c.IndentedJSON(http.StatusCreated, newUser)
 }
 
-func emailCheck(u User) bool{
+func emailCheck(u string) bool{
 	emailRegex := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
-	return emailRegex.MatchString(u.Email)
+	return emailRegex.MatchString(u)
 }
 
 func usernameCheck(u User) bool{
