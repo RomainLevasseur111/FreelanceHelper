@@ -1,22 +1,18 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
-	"github.com/rs/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-    mux := http.NewServeMux()
 
-    mux.HandleFunc("/api/register", register)
-    c := cors.AllowAll()
+    createDB()
+    router := gin.Default()
+    router.Use(corsMiddleware())
+    router.Use(sessionsMiddleware())
+    router.POST("/api/register", register)
+    router.POST("api/login", login)
+    //router.GET("api/user/{id}", getUserById)
 
-	// Wrap your handler with CORS
-	handler := c.Handler(mux)
-
-    log.Println("API server is running on port 8040")
-
-    log.Fatal(http.ListenAndServe(":8040", handler))
+    router.Run("localhost:8040")
 }

@@ -1,62 +1,62 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 function RegisterForm() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        password: "",
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch("/api/register", {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
-            const data = await response.json();
-            console.log("Success: ", data);
-        } catch (error) {
-            console.error("Error: ", error);
-        }
-    };
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setError,
+    } = useForm();
+    const onSubmit = (data) =>
+        fetch("api/register", {
+            method: "POST",
+            body: JSON.stringify(data),
+        })
+            .then(async (response) => {
+                if (!response.ok) {
+                    return setError("root", {
+                        type: "server",
+                        message: await response.json(),
+                    });
+                } else {
+                    console.log(await response.json());
+                }
+            })
+            .then()
+            .catch(() =>
+                setError("root", {
+                    type: "server",
+                    message:
+                        "Sorry, we cannot register your profile now. Try again later.",
+                })
+            );
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <span>{errors.root?.message}</span>
             <input
                 type="text"
-                name="name"
                 placeholder="Name"
-                value={formData.name}
-                onChange={handleChange}
+                {...register("Name", { required: false, maxLength: 80 })}
             />
             <input
-                type="email"
-                name="email"
+                type="text"
                 placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
+                {...register("Email", {
+                    required: true,
+                    pattern: /^\S+@\S+$/i,
+                })}
             />
             <input
                 type="password"
-                name="password"
                 placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
+                {...register("Password", { required: true })}
             />
-            <button type="submit">Register me please!</button>
+
+            <input type="submit" />
         </form>
     );
 }
+
 export default RegisterForm;
