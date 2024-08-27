@@ -19,7 +19,7 @@ func ImpotsRevenus(){
 	if abattement <= 11294{
 		res = 0
 	}else if abattement > 11294 && abattement <= 28797{
-		res = (abattement - 11294) * 0.11
+		res = ((abattement - 11294) * 0.11)-(873-((abattement - 11294) * 0.11)*0.4525)
 	}else if abattement > 28797 && abattement <= 82341{
 		res = (28797-11294)*0.11 + ((abattement - 28797) * 0.3)
 	}else if abattement > 82341 && abattement <= 177106{
