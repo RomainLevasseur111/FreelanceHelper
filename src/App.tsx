@@ -1,6 +1,15 @@
+import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function App() {
+    return (
+        <Routes>
+            <Route path="/" element={<Root />} />
+        </Routes>
+    );
+}
+
+function Root() {
     const [data, setData] = useState<string>("");
 
     useEffect(() => {
