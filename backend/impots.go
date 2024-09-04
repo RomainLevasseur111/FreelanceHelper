@@ -1,36 +1,32 @@
-package main
+package api
 
 import "fmt"
 
-
-func ImpotsRevenus(nbParts float32, revenus float32)float32{
-
+func ImpotsRevenus(nbParts float32, revenus float32) float32 {
 	var revenusNpParts float32 = revenus / nbParts
 
 	var res float32
 
-	if revenusNpParts <= 11294{
+	if revenusNpParts <= 11294 {
 		res = 0
-	}else if revenusNpParts > 11294 && revenusNpParts <= 28797{
-		res = ((revenusNpParts - 11294) * 0.11)-(873-((revenusNpParts - 11294) * 0.11)*0.4525)
-		fmt.Println(873-((revenusNpParts - 11294) * 0.11)*0.4525)
-	}else if revenusNpParts > 28797 && revenusNpParts <= 82341{
+	} else if revenusNpParts > 11294 && revenusNpParts <= 28797 {
+		res = ((revenusNpParts - 11294) * 0.11) - (873 - ((revenusNpParts-11294)*0.11)*0.4525)
+		fmt.Println(873 - ((revenusNpParts-11294)*0.11)*0.4525)
+	} else if revenusNpParts > 28797 && revenusNpParts <= 82341 {
 		res = (28797-11294)*0.11 + ((revenusNpParts - 28797) * 0.3)
-	}else if revenusNpParts > 82341 && revenusNpParts <= 177106{
-		res = (28797-11294)*0.11 + ((82341 - 28797)*0.3) + ((revenusNpParts - 82341)*0.41)
-	}else{
-		res = (28797-11294)*0.11 + ((82341 - 28797)*0.3) + ((177106 - 82341)*0.41) + ((revenusNpParts - 177106)*0.45)
+	} else if revenusNpParts > 82341 && revenusNpParts <= 177106 {
+		res = (28797-11294)*0.11 + ((82341 - 28797) * 0.3) + ((revenusNpParts - 82341) * 0.41)
+	} else {
+		res = (28797-11294)*0.11 + ((82341 - 28797) * 0.3) + ((177106 - 82341) * 0.41) + ((revenusNpParts - 177106) * 0.45)
 	}
 	fmt.Printf("Nombre de parts : %.0f. \nRevenus imposable annuel : %.0f.\nImpôts sur le revenu: %.2f.\n", nbParts, revenusNpParts, res)
 	return res
 }
 
-func ImpotsSocietes(){
-
-
+func ImpotsSocietes() {
 }
 
-func Menu(){
+func Menu() {
 	var abattement float32 = 1
 	var personne string
 	fmt.Print("Êtes-vous une société ou une personne?\n1: Société\n2: Personne\n")
@@ -40,8 +36,8 @@ func Menu(){
 		var statut string
 		fmt.Print("1: Auto-Entreprise\n2: EURL\n3: SASU\nEntrez le numéro corresondant à votre statut juridique.\n")
 		fmt.Scan(&statut)
-	
-		switch statut{
+
+		switch statut {
 		case "1":
 			var nbParts float32
 			var administrationF string
@@ -85,8 +81,8 @@ func Menu(){
 					totalcot = CotisationsContributions(ca, cotisations, fraischambre, contribution)
 					abattement = 0.50
 				}
-				//1 vente de biens = cotisations 12.3% + frais de chambre 0.04% + contirbution formation 0.1% // 2 prestation de service = cotisation 21.2% + frais de chambre 0.04% + contribution formation 0.1%
-				//1= 71% du CA IR 2 = 50% du CA IR
+				// 1 vente de biens = cotisations 12.3% + frais de chambre 0.04% + contirbution formation 0.1% // 2 prestation de service = cotisation 21.2% + frais de chambre 0.04% + contribution formation 0.1%
+				// 1= 71% du CA IR 2 = 50% du CA IR
 			case "3":
 				cotisations, fraischambre, contribution = 23.1, 0, 0.2
 				totalcot = CotisationsContributions(ca, cotisations, fraischambre, contribution)
@@ -96,12 +92,12 @@ func Menu(){
 			}
 			res := ImpotsRevenus(nbParts, ca*abattement)
 			fmt.Printf("Total de cotisations et contributions: %.0f\n", totalcot)
-			totalrevenus := ca-totalcot-res
+			totalrevenus := ca - totalcot - res
 			fmt.Printf("Revenus total après impôts: %.0f\n", totalrevenus)
 		case "2":
-			//EURL
+			// EURL
 		case "3":
-			//SASU
+			// SASU
 		}
 	case "2":
 		var nbParts float32
@@ -114,6 +110,6 @@ func Menu(){
 	}
 }
 
-func CotisationsContributions(CA float32, cotisation float32, fdc float32, contribution float32) float32{
-	return CA*(cotisation/100)+ CA*(fdc/100) + CA*(contribution/100)
+func CotisationsContributions(CA float32, cotisation float32, fdc float32, contribution float32) float32 {
+	return CA*(cotisation/100) + CA*(fdc/100) + CA*(contribution/100)
 }
