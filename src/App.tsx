@@ -1,8 +1,18 @@
+import { useEffect, useState } from "react";
+
 function App() {
+    const [data, setData] = useState<string>("");
+
+    useEffect(() => {
+        fetch("/test")
+            .then((resp) => (resp.ok ? resp.json() : ""))
+            .then(setData);
+    }, []);
+
     return (
         <>
-            <p>Salut à tous</p>
-            <div>hey</div>
+            <p>FreelanceHelper</p>
+            <div>{data}</div>
         </>
     );
 }
