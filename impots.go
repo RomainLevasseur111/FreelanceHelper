@@ -85,14 +85,10 @@ func Menu(){
 					totalcot = CotisationsContributions(ca, cotisations, fraischambre, contribution)
 					abattement = 0.50
 				}
-				//1 vente de biens = cotisations 12.3% + frais de chambre 0.04% + contirbution formation 0.1% // 2 prestation de service = cotisation 21.2% + frais de chambre 0.04% + contribution formation 0.1%
-				//1= 71% du CA IR 2 = 50% du CA IR
 			case "3":
 				cotisations, fraischambre, contribution = 23.1, 0, 0.2
 				totalcot = CotisationsContributions(ca, cotisations, fraischambre, contribution)
 				abattement = 0.66
-				// cotisation 23.1% + contribution formation 0.2%
-				// 34% du CA IR
 			}
 			res := ImpotsRevenus(nbParts, ca*abattement)
 			fmt.Printf("Total de cotisations et contributions: %.0f\n", totalcot)
@@ -100,6 +96,7 @@ func Menu(){
 			fmt.Printf("Revenus total après impôts: %.0f\n", totalrevenus)
 		case "2":
 			//EURL
+				//1 IR 2 IS
 		case "3":
 			//SASU
 		}
