@@ -4,10 +4,18 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"freelancehelper/api/database"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type API struct {
 	http.Server
+	Storage *database.SQLite3Store
+	Sessions *database.SessionStore
+
+
 }
 
 type APIerror struct {
@@ -38,7 +46,7 @@ func handleFunc(fn handlerFunc) http.HandlerFunc {
 	}
 }
 
-func NewAPI(addr string) (*API, error) {
+func NewAPI(addr, dbFilePath string) (*API, error) {
 	server := new(API)
 	server.Server.Addr = addr
 
@@ -48,6 +56,7 @@ func NewAPI(addr string) (*API, error) {
 	router.HandleFunc("/test", handleFunc(server.GetTest))
 
 	// POST routes
+	router.HandleFunc("/register", handleFunc(server.Register))
 
 	// Server handling routes
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -57,5 +66,12 @@ func NewAPI(addr string) (*API, error) {
 
 	server.Server.Handler = router
 
+	storage, err := database.NewSQLite3Store(dbFilePath)
+	if err != nil {
+		return nil, err
+	}
+	server.Storage = storage
+
+	server.Sessions = database.NewSessionStore()
 	return server, nil
 }

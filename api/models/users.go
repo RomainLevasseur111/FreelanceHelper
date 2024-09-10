@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Users struct {
+type User struct {
 	Id          string
 	Name    string    `json:"Name"`
 	Email       string    `json:"email"`
@@ -10,7 +10,7 @@ type Users struct {
 }
 
 type RegisterRequest struct {
-	Nickname    string `json:"nickname"`
+	Name    string `json:"Name"`
 	Email       string `json:"email"`
 	Password    string `json:"password"`
 }

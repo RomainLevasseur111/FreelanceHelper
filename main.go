@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	api "freelancehelper/backend"
+	api "freelancehelper/api"
 )
 
 func main() {
-	server, err := api.NewAPI(":8080")
+	server, err := api.NewAPI(":8080","api/db/db.sqlite3")
 	if err != nil {
 		log.Fatalln(err)
 	}

@@ -1,6 +1,7 @@
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS users (
     id TEXT NOT NULL,
+    name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password BLOB NOT NULL,
     timestamp DATETIME NOT NULL
