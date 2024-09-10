@@ -53,7 +53,7 @@ func NewAPI(addr, dbFilePath string) (*API, error) {
 	router := http.NewServeMux()
 
 	// GET routes
-	router.HandleFunc("/test", handleFunc(server.GetTest))
+	//router.HandleFunc("/test", handleFunc(server.GetTest))
 
 	// POST routes
 	router.HandleFunc("/register", handleFunc(server.Register))
@@ -63,6 +63,7 @@ func NewAPI(addr, dbFilePath string) (*API, error) {
 		http.ServeFile(w, r, "dist/index.html")
 	})
 	router.Handle("/assets/", http.FileServer(http.Dir("dist")))
+
 
 	server.Server.Handler = router
 

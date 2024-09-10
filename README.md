@@ -9,5 +9,7 @@ Now build and run:
 
 ```
   npm run build
+
+  npm run dev
   go run .
 ```

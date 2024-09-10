@@ -11,13 +11,19 @@ import (
 )
 
 // GET routes
-func (server *API) 	GetTest(w http.ResponseWriter, r *http.Request) error {
-	return writeJSON(w, http.StatusOK, "Hello World")
-}
 
 // POST routes
 
 func (server *API) Register(writer http.ResponseWriter, request *http.Request) error {
+	writer.Header().Set("Access-Control-Allow-Origin", "*")
+	writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+	if request.Method == http.MethodOptions {
+		writer.WriteHeader(http.StatusOK)
+		return nil
+	}
+
 	if request.Method != http.MethodPost {
 		return writeJSON(writer, http.StatusMethodNotAllowed,
 			APIerror{
